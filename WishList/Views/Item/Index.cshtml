@@ -3,6 +3,6 @@
 <a asp-action="create">Add item</a>
 
 @foreach (var item in Model){
-    <li>@Html.DisplayFor(modelItem => item.Description)</li>
+    <li>@item.Description</li>
     <a asp-action="delete" asp-route-id=@item.Id>delete</a>
 }
