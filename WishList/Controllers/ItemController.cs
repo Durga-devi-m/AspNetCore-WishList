@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WishList.Data;
@@ -17,8 +18,11 @@ namespace WishList.Controllers
 
         public IActionResult Index()
         {
-            return View("Index");
+            List<Item> items= _context.Items.ToList();
+            return View("Index", items);
         }
+
+
         [HttpGet]
         public IActionResult Create()
         {
@@ -34,12 +38,13 @@ namespace WishList.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult Delete(int Id)
+        
+        public IActionResult Delete(int id)
         {
-            Item item = _context.Items.Find(Id);
+            Item item = _context.Items.FirstOrDefault(item=>item.Id==id);
             _context.Items.Remove(item);
-            _context.SaveChanges();
-            return RedirectToAction("Index");
+            _context.SaveChanges(); 
+            return RedirectToAction("Index", "Item");
         }
     }
 }
